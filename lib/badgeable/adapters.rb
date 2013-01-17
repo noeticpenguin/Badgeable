@@ -14,7 +14,7 @@ module Badgeable
     end
 
     def self.connect(klass)
-      logger.debug "%%%%%%%%%%%%%%%%%%%% Klass is: #{klass}"
+      puts "%%%%%%%%%%%%%%%%%%%% Klass is: #{klass}"
       raise ArgumentError, "Badgeable needs a database adapter to work. Add one of the following to your Gemfile: #{Badgeable::Adapters.supported_adapters.map {|name| 'badgeable_' + name }}" unless Badgeable::Adapters.current_adapter && (Badgeable::Adapters.supported_adapters.include? Badgeable::Adapters.current_adapter)
       klass.send(:include, "Badgeable::Adapters::#{current_adapter.to_s.camelize}Adapter".constantize)
     end
