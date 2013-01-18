@@ -4,11 +4,12 @@ require 'active_support/inflector'
 require 'active_support/dependencies'
 require 'active_support/concern'
 
-# if defined?(Mongoid)
-  # autoload :Badge,   'badgeable/adapters/mongoid_adapter/badge'
-  # autoload :Badging, 'badgeable/adapters/mongoid_adapter/badging'
-# end
-# 
+if defined?(::Mongoid)
+  autoload :Badge,   'badgeable/adapters/mongoid_adapter/badge'
+  autoload :Badging, 'badgeable/adapters/mongoid_adapter/badging'
+end
+
+# This is now externalized in an additional gem badgeable_active_record or some such.
 # if defined?(ActiveRecord)
 #   autoload :Badge,   'badgeable/adapters/active_record/badge'
 #   autoload :Badging, 'badgeable/adapters/active_record/badging'
@@ -22,10 +23,11 @@ module Badgeable
   autoload :Dsl,          'badgeable/dsl'
   autoload :Subject,      'badgeable/subject'
   autoload :Verson,       'badgeable/version'
-  #module Adapters
-    #autoload :ActiveRecordAdapter, "badgeable/adapters/active_record_adapter"
-    #autoload :MongoidAdapter,      "badgeable/adapters/mongoid_adapter"
-  #end
+  module Adapters
+    autoload :ActiveRecordAdapter, "badgeable/adapters/active_record_adapter"
+    autoload :MongoidAdapter,      "badgeable/adapters/mongoid_adapter"
+    Badgeable::Adapters.use :mongoid
+  end
 end
 
 require 'badgeable/railtie' if defined?(Rails)
