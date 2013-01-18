@@ -5,7 +5,8 @@ class Badge
   field :name
   field :description
   field :icon
-  index :name
+  # index :name
+  index({ name: 1 }, { sparse: true })
   
   before_create :assign_default_icon_name, :unless => lambda{icon}
   
